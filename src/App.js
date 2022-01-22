@@ -34,21 +34,17 @@ const App = () => {
 
   const addTodo = (e) => {
     e.preventDefault();
-    if (formInput) {
-      if (formInput.length <= 25) {
-        if (todos.length < 5) {
-          const list = [...todos];
-          list.push({ name: formInput, done: false });
-          setTodos(list);
-          setFormInput('');
-        } else {
-          alert('U can have a max of 5 Todos, Login to create more');
-        }
+    if (formInput.length <= 25) {
+      if (todos.length < 5) {
+        const list = [...todos];
+        list.push({ name: formInput, done: false });
+        setTodos(list);
+        setFormInput('');
       } else {
-        alert('more than 25 characters are not allowed');
+        alert('U can have a max of 5 Todos, Login to create more');
       }
     } else {
-      alert('Text missing');
+      alert('more than 25 characters are not allowed');
     }
   };
 
@@ -77,8 +73,13 @@ const App = () => {
         <input
           type='submit'
           value='Add Todo...'
-          className='col-span-1 cursor-pointer bg-teal-500 rounded-xl'
+          className={
+            formInput
+              ? 'col-span-1 cursor-pointer bg-teal-500 rounded-xl'
+              : 'col-span-1 opacity-60 cursor-not-allowed bg-teal-500 rounded-xl'
+          }
           onClick={addTodo}
+          disabled={!formInput}
         />
       </form>
       <div>
