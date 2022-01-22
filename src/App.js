@@ -1,10 +1,13 @@
-import { items } from './items';
 import { useEffect, useState } from 'react';
 import Todo from './Todo';
 
 const App = () => {
-  const [todos, setTodos] = useState(items);
+  const [todos, setTodos] = useState(() => {
+    const items = JSON.parse(localStorage.getItem('todos'));
+    return items;
+  });
   const [count, setCount] = useState(0);
+  const [formInput, setFormInput] = useState('');
 
   const countOpenTodos = () => {
     let doneTodos = todos.filter((todo) => {
@@ -29,8 +32,21 @@ const App = () => {
     setTodos(list);
   };
 
+  const addTodo = (e) => {
+    e.preventDefault();
+    if (formInput) {
+      const list = [...todos];
+      list.push({ name: formInput, done: false });
+      setTodos(list);
+      setFormInput('');
+    } else {
+      alert('Text missing');
+    }
+  };
+
   useEffect(() => {
     countOpenTodos();
+    localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
 
   return (
@@ -41,6 +57,22 @@ const App = () => {
       <h2 className='text-center mb-4 font-semibold text-xl'>
         Open Todos: {count}
       </h2>
+      <form className='grid grid-cols-3 py-2'>
+        <input
+          autoFocus
+          type='text'
+          className='col-span-2 py-2 mx-2 text-center text-black font-bold'
+          placeholder='...'
+          value={formInput}
+          onChange={(e) => setFormInput(e.target.value)}
+        />
+        <input
+          type='submit'
+          value='Add Todo...'
+          className='col-span-1 cursor-pointer bg-zinc-600'
+          onClick={addTodo}
+        />
+      </form>
       <div>
         {todos.map((todo, i) => {
           return (
