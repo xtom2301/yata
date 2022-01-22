@@ -35,10 +35,14 @@ const App = () => {
   const addTodo = (e) => {
     e.preventDefault();
     if (formInput) {
-      const list = [...todos];
-      list.push({ name: formInput, done: false });
-      setTodos(list);
-      setFormInput('');
+      if (todos.length < 5) {
+        const list = [...todos];
+        list.push({ name: formInput, done: false });
+        setTodos(list);
+        setFormInput('');
+      } else {
+        alert('U can have a max of 5 Todos, Login to create more');
+      }
     } else {
       alert('Text missing');
     }
@@ -50,7 +54,7 @@ const App = () => {
   }, [todos]);
 
   return (
-    <div className='max-w-2xl m-auto mt-40 bg-zinc-900 text-white'>
+    <div className='max-w-2xl m-auto bg-zinc-900 text-white'>
       <h1 className='text-white p-8 text-center font-bold text-4xl '>
         Yet Another Todo App
       </h1>
