@@ -35,13 +35,17 @@ const App = () => {
   const addTodo = (e) => {
     e.preventDefault();
     if (formInput) {
-      if (todos.length < 5) {
-        const list = [...todos];
-        list.push({ name: formInput, done: false });
-        setTodos(list);
-        setFormInput('');
+      if (formInput.length <= 25) {
+        if (todos.length < 5) {
+          const list = [...todos];
+          list.push({ name: formInput, done: false });
+          setTodos(list);
+          setFormInput('');
+        } else {
+          alert('U can have a max of 5 Todos, Login to create more');
+        }
       } else {
-        alert('U can have a max of 5 Todos, Login to create more');
+        alert('more than 25 characters are not allowed');
       }
     } else {
       alert('Text missing');
@@ -65,7 +69,7 @@ const App = () => {
         <input
           autoFocus
           type='text'
-          className='col-span-2 py-2 mx-2 text-center text-black font-bold'
+          className='col-span-2 py-2 mx-2 text-center text-black font-bold rounded-xl'
           placeholder='...'
           value={formInput}
           onChange={(e) => setFormInput(e.target.value)}
@@ -73,23 +77,30 @@ const App = () => {
         <input
           type='submit'
           value='Add Todo...'
-          className='col-span-1 cursor-pointer bg-zinc-600'
+          className='col-span-1 cursor-pointer bg-teal-500 rounded-xl'
           onClick={addTodo}
         />
       </form>
       <div>
-        {todos.map((todo, i) => {
-          return (
-            <Todo
-              key={i}
-              name={todo.name}
-              i={i}
-              done={todo.done}
-              onCheckTodo={checkTodo}
-              onDelete={deleteTodo}
-            />
-          );
-        })}
+        {todos.length ? (
+          todos.map((todo, i) => {
+            return (
+              <Todo
+                key={i}
+                name={todo.name}
+                i={i}
+                done={todo.done}
+                onCheckTodo={checkTodo}
+                onDelete={deleteTodo}
+              />
+            );
+          })
+        ) : (
+          <div className='flex justify-center flex-col items-center text-center text-5xl mt-48'>
+            <h1 className='font-bold mb-10'>No Todo's yet</h1>
+            <h2>Click the Name of a Todo to mark it as done</h2>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -3,20 +3,29 @@ const Todo = ({ name, i, done, onCheckTodo, onDelete }) => {
     <div
       className={
         done
-          ? 'p-6 flex justify-between items-center border-t-8 border-indigo-100 bg-green-500'
-          : 'p-6 flex justify-between items-center border-t-8 border-indigo-100 bg-red-500'
+          ? 'p-6 flex justify-between items-center m-10 border-2 border-teal-800 rounded-3xl'
+          : 'p-6 flex justify-between items-center m-10 border-2 border-teal-300 rounded-3xl'
       }
     >
       <h1
-        className='text-2xl font-bold cursor-pointer'
         onClick={() => {
           onCheckTodo(i);
         }}
+        className={
+          done
+            ? 'text-2xl font-bold cursor-pointer opacity-60'
+            : 'text-2xl font-bold cursor-pointer'
+        }
       >
         {name}
       </h1>
       <button
-        className='bg-zinc-900 p-4 font-semibold'
+        disabled={!done}
+        className={
+          done
+            ? 'bg-teal-500 p-4 font-semibold rounded-xl'
+            : 'bg-teal-500 p-4 font-semibold rounded-xl opacity-60 cursor-not-allowed'
+        }
         onClick={() => {
           onDelete(i);
         }}
