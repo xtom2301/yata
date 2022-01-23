@@ -83,7 +83,7 @@ const App = () => {
         />
       </form>
       <div>
-        {todos.length > 0 ? (
+        {todos && todos.length > 0 ? (
           todos.map((todo, i) => {
             return (
               <Todo
