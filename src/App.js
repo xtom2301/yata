@@ -9,13 +9,6 @@ const App = () => {
   const [count, setCount] = useState(0);
   const [formInput, setFormInput] = useState('');
 
-  const countOpenTodos = () => {
-    let doneTodos = todos.filter((todo) => {
-      return !todo.done;
-    });
-    setCount(doneTodos.length);
-  };
-
   const checkTodo = (i) => {
     const list = [...todos];
     if (list[i].done) {
@@ -49,6 +42,13 @@ const App = () => {
   };
 
   useEffect(() => {
+    const countOpenTodos = () => {
+      let doneTodos = todos.filter((todo) => {
+        return !todo.done;
+      });
+      setCount(doneTodos.length);
+    };
+
     countOpenTodos();
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
@@ -83,7 +83,7 @@ const App = () => {
         />
       </form>
       <div>
-        {todos.length ? (
+        {todos.length > 0 ? (
           todos.map((todo, i) => {
             return (
               <Todo
