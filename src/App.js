@@ -3,7 +3,7 @@ import Todo from './Todo';
 
 const App = () => {
   const [todos, setTodos] = useState(() => {
-    const items = JSON.parse(localStorage.getItem('todos'));
+    const items = JSON.parse(localStorage.getItem('todos')) || [];
     return items;
   });
   const [count, setCount] = useState(0);
@@ -41,15 +41,25 @@ const App = () => {
     }
   };
 
+  const markAllDone = () => {
+    const list = [...todos];
+    list.forEach((todo) => {
+      todo.done = true;
+    });
+    setTodos(list);
+  };
+
   useEffect(() => {
     const countOpenTodos = () => {
-      let doneTodos = todos.filter((todo) => {
-        return !todo.done;
-      });
-      setCount(doneTodos.length);
+      if (todos) {
+        let doneTodos = todos.filter((todo) => {
+          return !todo.done;
+        });
+        setCount(doneTodos.length);
+      }
     };
-
     countOpenTodos();
+
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
 
@@ -82,6 +92,20 @@ const App = () => {
           disabled={!formInput}
         />
       </form>
+
+      <div className='flex justify-evenly mt-10'>
+        {todos.length ? (
+          <button
+            className='border-2 border-teal-300 rounded-3xl p-4'
+            onClick={markAllDone}
+          >
+            Mark all Done
+          </button>
+        ) : (
+          ''
+        )}
+      </div>
+
       <div>
         {todos && todos.length > 0 ? (
           todos.map((todo, i) => {
