@@ -28,14 +28,10 @@ const App = () => {
   const addTodo = (e) => {
     e.preventDefault();
     if (formInput.length <= 25) {
-      if (todos.length < 5) {
-        const list = [...todos];
-        list.push({ name: formInput, done: false });
-        setTodos(list);
-        setFormInput('');
-      } else {
-        alert('U can have a max of 5 Todos, Login to create more');
-      }
+      const list = [...todos];
+      list.push({ name: formInput, done: false });
+      setTodos(list);
+      setFormInput('');
     } else {
       alert('more than 25 characters are not allowed');
     }
@@ -121,7 +117,7 @@ const App = () => {
             );
           })
         ) : (
-          <div className='flex justify-center flex-col items-center text-center text-5xl mt-48'>
+          <div className='flex justify-center flex-col items-center text-center text-5xl mt-40'>
             <h1 className='font-bold mb-10'>No Todo's yet</h1>
             <h2>Click the Name of a Todo to mark it as done</h2>
           </div>
